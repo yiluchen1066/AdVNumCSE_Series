@@ -20,6 +20,9 @@ deduce_numerical_flux(const Grid &grid,
     auto config = get_global_config();
 
     REGISTER_NUMERICAL_FLUX("central_flux", CentralFlux, CentralFlux(model))
+    REGISTER_NUMERICAL_FLUX("lax_friedrichs",
+                            LaxFriedrichs,
+                            LaxFriedrichs(grid, model, simulation_time))
 
     // Register the other numerical fluxes.
 

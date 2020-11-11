@@ -72,6 +72,9 @@ class PWLinearReconstruction {
     std::pair<double, double>
     operator()(double ua, double ub, double uc, double ud) const {
 
+        double uL = 0.0;
+        double uR = 0.0;
+
 
         return {uL, uR};
     }

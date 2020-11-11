@@ -3,9 +3,9 @@
 
   "initial_conditions": "sine",
   "boundary_condition": "outflow",
-  "reconstruction": "van_leer",
-  "time_integrator": "ssp2",
-  "flux": "rusanov",
+  "reconstruction": "minmod",
+  "time_integrator": "forward_euler",
+  "flux": "central_flux",
 
   "n_interior_cells": 100,
   "n_ghost": 2,

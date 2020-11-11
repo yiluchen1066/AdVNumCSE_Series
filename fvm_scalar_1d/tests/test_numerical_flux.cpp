@@ -19,4 +19,20 @@ TEST(TestCentralFlux, consistency) {
     check_consistency(central_flux);
 }
 
+TEST(TestRusanovFlux, consistency) {
+auto model = make_dummy_model();
+auto Rusanov_flux = Rusanov(model);
+
+check_consistency(Rusanov_flux);
+}
+
+TEST(TestLaxFriedrichsFlux, consistency) {
+auto model = make_dummy_model();
+auto LaxFriedrichs_flux = LaxFriedrichs(simulation_time, grid, model);
+
+check_consistency(LaxFriedrichs_flux);
+}
+
+
+
 

@@ -34,6 +34,91 @@ class CentralFlux {
     Model model;
 };
 
+//Rusanov's
+
+class Rusanov {
+  public:
+
+    explicit Rusanov(const Model &model) : model(model){}
+
+    double operator()(double uL, double uR) const {
+
+        auto fL = model.flux(uL);
+        auto fR = model.flux(uR);
+
+        auto fL_d = model.max_eigenvalue(uL);
+        auto fR_d = model.max_eigenvalue(uR);
+
+        auto c = std::max(fL_d, fR_d);
+
+
+        return 0.5 * (fL + fR) - c/2*(uR - uL);
+
+    }
+
+  private:
+    Model model;
+};
+//
+
+//Enquist-Osher
+class Enguist_osher {
+  public:
+
+    explicit Enguist_osher(const Model &model) : model(model){}
+
+    double operator()(double uL, double uR) const {
+
+        auto fL = model.flux(uL);
+        auto fR = model.flux(uR);
+
+        auto D = fR - fL;
+
+        if (uR > 0 && uL > 0){
+            D = fR - fL;
+        } else if (uR < 0 && uL < 0){
+            D = fL - fR;
+        } else if (uR > 0 && uL < 0){
+            D = fL + fR;
+        } else if (uR < 0 && uL > 0){
+            D = fL + fR;
+        }
+
+        return 0.5 * (fL + fR) - D/2;
+
+    }
+
+  private:
+    Model model;
+};
+
+//Godnunov
+
+class Godunov {
+  public:
+
+    explicit Godunov(const Model &model) : model(model){}
+
+    double operator()(double uL, double uR) const {
+
+        auto fL = model.flux(uL);
+        auto fR = model.flux(uR);
+
+        auto fL_d = model.max_eigenvalue(uL);
+        auto fR_d = model.max_eigenvalue(uR);
+
+        auto c = std::max(fL_d, fR_d);
+
+
+        return 0.5 * (fL + fR) - c/2*(uR - uL);
+
+    }
+
+  private:
+    Model model;
+};
+
+
 
 //----------------FluxLFBegin----------------
 /// Lax-Friedrichs numerical flux.
@@ -56,8 +141,10 @@ class LaxFriedrichs {
         double dx = grid.dx;
         double dt = simulation_time->dt;
 
+        auto fL = model.flux(uL);
+        auto fR = model.flux(uR);
 
-        return 0.5 * ((fL + fR) - dx / dt * (uR - uL));
+        return 0.5 * (fL + fR) - dx/(2*dt)*(uR - uL);
 
     }
 

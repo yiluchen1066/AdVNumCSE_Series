@@ -13,7 +13,7 @@ double StandardCFLCondition::operator()(const Eigen::VectorXd &u) const {
     auto n_ghost = grid.n_ghost;
 
 
-    return cfl_number * grid.dx / a_max;
+    return 0.0;
 }
 //----------------StandardCFLConditionDefnEnd----------------
 
