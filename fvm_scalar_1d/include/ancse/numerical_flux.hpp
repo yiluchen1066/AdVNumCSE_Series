@@ -104,13 +104,56 @@ class Godunov {
         auto fL = model.flux(uL);
         auto fR = model.flux(uR);
 
-        auto fL_d = model.max_eigenvalue(uL);
-        auto fR_d = model.max_eigenvalue(uR);
+        auto F = fL;
+        if (uR >= uL && uL >0){
+            F = fL;
+        } else if (uR >= 0 && uL <= 0){
+            F = 0;
+        } else if (uR < 0 && uR > uL){
+            F = fR;
+        } else if (uL > uR && uR >= 0){
+            F = fL;
+        } else if (uR >= 0 && uL <= 0){
+            F = std::max(fL, fR);
+        } else if (uL > uR && uL < 0){
+            F = fR;
+        }
 
-        auto c = std::max(fL_d, fR_d);
+        return F;
 
+    }
 
-        return 0.5 * (fL + fR) - c/2*(uR - uL);
+  private:
+    Model model;
+};
+
+//Roe
+
+class Roe{
+  public:
+
+    explicit Roe(const Model &model) : model(model){}
+
+    double operator()(double uL, double uR) const {
+
+        auto fL = model.flux(uL);
+        auto fR = model.flux(uR);
+
+        auto A = 0;
+        if (uR == uL){
+            A = (fR - fL)/(uR -uL);
+        } else {
+            A = uL;
+        }
+
+        auto F = 0;
+        if (A >= 0){
+            F = fL;
+        } else if (A < 0){
+            F = fR;
+        }
+
+        return F;
 
     }
 
