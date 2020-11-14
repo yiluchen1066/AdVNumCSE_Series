@@ -39,6 +39,7 @@ class OutflowBC : public BoundaryCondition {
 
     virtual void operator()(Eigen::VectorXd &u) const override;
 
+
   private:
     int n_ghost;
 };

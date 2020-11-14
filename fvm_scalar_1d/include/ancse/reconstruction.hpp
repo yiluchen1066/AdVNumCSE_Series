@@ -121,9 +121,11 @@ class PWLinearReconstruction {
 
         double uL = 0.0;
         double uR = 0.0;
-        uL = ub + dx/2 * slope_limiter;
-        uR = uc - dx/2 * slope_limiter;
-
+        auto sL1 = (ub-ua)/dx;
+        auto sR1 = (uc-ub)/dx;
+        auto sR2 = (ud-uc)/dx;
+        uL = ub + dx/2 * slope_limiter(sL1, sR1);
+        uR = uc - dx/2 * slope_limiter(sR1, sR2);
 
         return {uL, uR};
     }

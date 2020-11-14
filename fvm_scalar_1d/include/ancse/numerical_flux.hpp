@@ -139,14 +139,14 @@ class Roe{
         auto fL = model.flux(uL);
         auto fR = model.flux(uR);
 
-        auto A = 0;
+        auto A = 0.0;
         if (uR == uL){
             A = (fR - fL)/(uR -uL);
         } else {
             A = uL;
         }
 
-        auto F = 0;
+        auto F = 0.0;
         if (A >= 0){
             F = fL;
         } else if (A < 0){

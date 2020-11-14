@@ -18,7 +18,7 @@ make_runge_kutta(const std::shared_ptr<RateOfChange> &rate_of_change,
 
     REGISTER_RUNGE_KUTTA("forward_euler", ForwardEuler);
 
-    // Register your SSP2 class.
+    REGISTER_RUNGE_KUTTA("SSP2",SSP2);
 
     throw std::runtime_error(
         fmt::format("Unknown time-integrator. [{}]", rk_key));
@@ -50,6 +50,14 @@ SSP2::SSP2(std::shared_ptr<RateOfChange> rate_of_change,
 
 void SSP2::
 operator()(Eigen::VectorXd &u1, const Eigen::VectorXd &u0, double dt) const {
+
+    (*rate_of_change)(dudt,u0);
+    u_star = u0 + dt * dudt;
+    (*boundary_condition)(u_star);
+    (*rate_of_change)(dudt,u_star);
+    u_star = u_star + dt*dudt;
+    u1 = (u_star+u0)/2;
+    (*boundary_condition)(u1);
 
     // You can reduce memory consumption by using `u1` as the temporary
     // buffer `u_star`.

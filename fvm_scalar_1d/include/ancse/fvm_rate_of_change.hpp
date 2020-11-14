@@ -29,11 +29,22 @@ class FVMRateOfChange : public RateOfChange {
 
     virtual void operator()(Eigen::VectorXd &dudt,
                             const Eigen::VectorXd &u0) const override {
-        // implement the flux loop here.
+        auto dx = grid.dx;
+
+        auto N = u0.size();
+
+        for (int i =1; i < N-3; i++){
+            auto [uL,uR] = reconstruction(u0,i);
+            auto [uL_1,uR_1] = reconstruction(u0,i+1);
+            dudt[i] = -(numerial_flux(uL,uR) - numerical_flux(reconstruction(uL_1,uR_1)))/dx;
+
+        }
+
     }
 
   private:
     Grid grid;
+    std::shared_ptr<SimulationTime> simulation_time;
     NumericalFlux numerical_flux;
     Reconstruction reconstruction;
 };

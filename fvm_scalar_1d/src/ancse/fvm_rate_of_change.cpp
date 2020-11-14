@@ -23,6 +23,10 @@ deduce_numerical_flux(const Grid &grid,
     REGISTER_NUMERICAL_FLUX("lax_friedrichs",
                             LaxFriedrichs,
                             LaxFriedrichs(grid, model, simulation_time))
+    REGISTER_NUMERICAL_FLUX("row",Roe, Roe(model))
+    REGISTER_NUMERICAL_FLUX("godunov",Godunov,Godunov(model))
+    REGISTER_NUMERICAL_FLUX("enguist_osher",Enguist_osher,Enguist_osher(model))
+    REGISTER_NUMERICAL_FLUX("rusanov",Rusanov,Rusanov(model))
 
     // Register the other numerical fluxes.
 
@@ -46,7 +50,13 @@ std::shared_ptr<RateOfChange> make_fvm_rate_of_change(
 
     REGISTER_RECONSTRUCTION("o1", PWConstantReconstruction{})
 
-    REGISTER_RECONSTRUCTION("minmod", PWLinearReconstruction{MinMod{}})
+    REGISTER_RECONSTRUCTION("minmod", PWLinearReconstruction(grid, MinMod{}))
+    REGISTER_RECONSTRUCTION("superbee",PWLinearReconstruction(grid,SuperBee{}))
+    REGISTER_RECONSTRUCTION("minabs",PWLinearReconstruction(grid,MinAbs{}))
+    REGISTER_RECONSTRUCTION("monotonized_central",PWLinearReconstruction(grid,MonotonizedCentral{}))
+    REGISTER_RECONSTRUCTION("vanleer",PWLinearReconstruction(grid,VanLeer{}))
+
+
 
     throw std::runtime_error(fmt::format(
         "Unknown reconstruction. [{}]", std::string(config["reconstruction"])));

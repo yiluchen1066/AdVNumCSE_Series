@@ -9,11 +9,18 @@ StandardCFLCondition::StandardCFLCondition(const Grid &grid,
 
 double StandardCFLCondition::operator()(const Eigen::VectorXd &u) const {
 
+    auto dx = grid.dx;
+
     auto n_cells = grid.n_cells;
     auto n_ghost = grid.n_ghost;
 
+    Eigen::Map<Eigen::VectorXd> us(u.data()+n_ghost, n_cells-2*n_ghost);
+    auto u_max = us.maxCoeff();
 
-    return 0.0;
+    auto dt = 0.0;
+    dt = cfl_number*dx/u_max;
+
+    return dt;
 }
 //----------------StandardCFLConditionDefnEnd----------------
 
