@@ -1,5 +1,4 @@
 #include <gtest/gtest.h>
-
 #include <ancse/numerical_flux.hpp>
 
 template <class NumericalFlux>
@@ -20,17 +19,42 @@ TEST(TestCentralFlux, consistency) {
 }
 
 TEST(TestRusanovFlux, consistency) {
-auto model = make_dummy_model();
-auto Rusanov_flux = Rusanov(model);
+    auto model = make_dummy_model();
+    auto Rusanov_flux = Rusanov(model);
 
-check_consistency(Rusanov_flux);
+    check_consistency(Rusanov_flux);
 }
 
-TEST(TestLaxFriedrichsFlux, consistency) {
-auto model = make_dummy_model();
-auto LaxFriedrichs_flux = LaxFriedrichs(simulation_time, grid, model);
+TEST(TestRoeFlux, consistency){
+    auto model = make_dummy_model();
+    auto Roe_flux = Roe(model);
 
-check_consistency(LaxFriedrichs_flux);
+    check_consistency(Roe_flux);
+}
+
+TEST(TestEnquistOsherFlux, consistency){
+    auto model = make_dummy_model();
+    auto Enquist_Osher_flux = Enquist_osher(model);
+
+    check_consistency(Enquist_Osher_flux);
+}
+
+TEST(TestGodunovFlux, consistency){
+    auto model = make_dummy_model();
+    auto Godunov_flux = Godunov(model);
+
+    check_consistency(Godunov_flux);
+}
+
+
+TEST(TestLaxFriedrichsFlux, consistency) {
+    auto model = make_dummy_model();
+    std::shared_ptr<SimulationTime> simulation_time;
+    Grid grid({0,10},100.0,2.0);
+    auto LaxFriedrichs_flux = LaxFriedrichs(grid, model,simulation_time);
+
+    check_consistency(LaxFriedrichs_flux);
+
 }
 
 

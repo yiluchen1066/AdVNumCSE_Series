@@ -36,7 +36,7 @@ class FVMRateOfChange : public RateOfChange {
         for (int i =1; i < N-3; i++){
             auto [uL,uR] = reconstruction(u0,i);
             auto [uL_1,uR_1] = reconstruction(u0,i+1);
-            dudt[i] = -(numerial_flux(uL,uR) - numerical_flux(reconstruction(uL_1,uR_1)))/dx;
+            dudt[i] = -(numerical_flux(reconstruction(uL_1,uR_1)) - numerical_flux(reconstruction(uL,uR)))/dx;
 
         }
 

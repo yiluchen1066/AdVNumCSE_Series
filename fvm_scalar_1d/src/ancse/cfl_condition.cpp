@@ -14,8 +14,18 @@ double StandardCFLCondition::operator()(const Eigen::VectorXd &u) const {
     auto n_cells = grid.n_cells;
     auto n_ghost = grid.n_ghost;
 
-    Eigen::Map<Eigen::VectorXd> us(u.data()+n_ghost, n_cells-2*n_ghost);
-    auto u_max = us.maxCoeff();
+    auto u_max = u[n_ghost];
+    auto u_second_max = u[n_ghost];
+
+    for (int i = n_ghost; i < n_cells-n_ghost; i++) {
+        if (u_max < u[i]){
+            u_second_max = u_max;
+            u_max = u[i];
+        } else if (u_second_max < u[i]){
+            u_second_max = u[i];
+        }
+    }
+
 
     auto dt = 0.0;
     dt = cfl_number*dx/u_max;

@@ -25,7 +25,7 @@ deduce_numerical_flux(const Grid &grid,
                             LaxFriedrichs(grid, model, simulation_time))
     REGISTER_NUMERICAL_FLUX("row",Roe, Roe(model))
     REGISTER_NUMERICAL_FLUX("godunov",Godunov,Godunov(model))
-    REGISTER_NUMERICAL_FLUX("enguist_osher",Enguist_osher,Enguist_osher(model))
+    REGISTER_NUMERICAL_FLUX("enquist_osher",Enquist_osher,Enquist_osher(model))
     REGISTER_NUMERICAL_FLUX("rusanov",Rusanov,Rusanov(model))
 
     // Register the other numerical fluxes.

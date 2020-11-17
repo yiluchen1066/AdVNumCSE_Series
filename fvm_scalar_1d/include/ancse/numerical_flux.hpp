@@ -62,17 +62,18 @@ class Rusanov {
 //
 
 //Enquist-Osher
-class Enguist_osher {
+class Enquist_osher {
   public:
 
-    explicit Enguist_osher(const Model &model) : model(model){}
+    explicit Enquist_osher(const Model &model) : model(model){}
 
     double operator()(double uL, double uR) const {
 
         auto fL = model.flux(uL);
         auto fR = model.flux(uR);
 
-        auto D = fR - fL;
+
+        auto D = 0.0;
 
         if (uR > 0 && uL > 0){
             D = fR - fL;
@@ -84,7 +85,7 @@ class Enguist_osher {
             D = fL + fR;
         }
 
-        return 0.5 * (fL + fR) - D/2;
+        return 0.5 * (fL + fR) - 0.5 * D;
 
     }
 
@@ -104,16 +105,16 @@ class Godunov {
         auto fL = model.flux(uL);
         auto fR = model.flux(uR);
 
-        auto F = fL;
+        auto F = 0.0;
         if (uR >= uL && uL >0){
             F = fL;
         } else if (uR >= 0 && uL <= 0){
-            F = 0;
-        } else if (uR < 0 && uR > uL){
+            F = 0.0;
+        } else if (uR < 0 && uR >= uL){
             F = fR;
         } else if (uL > uR && uR >= 0){
             F = fL;
-        } else if (uR >= 0 && uL <= 0){
+        } else if (uR < 0 && uL >= 0){
             F = std::max(fL, fR);
         } else if (uL > uR && uL < 0){
             F = fR;
@@ -141,9 +142,9 @@ class Roe{
 
         auto A = 0.0;
         if (uR == uL){
-            A = (fR - fL)/(uR -uL);
-        } else {
             A = uL;
+        } else {
+            A = (fR-fL)/(uR-uL);
         }
 
         auto F = 0.0;
@@ -187,7 +188,7 @@ class LaxFriedrichs {
         auto fL = model.flux(uL);
         auto fR = model.flux(uR);
 
-        return 0.5 * (fL + fR) - dx/(2*dt)*(uR - uL);
+        return 0.5 * (fL + fR) - 0.5 * dx/dt*(uR - uL);
 
     }
 
