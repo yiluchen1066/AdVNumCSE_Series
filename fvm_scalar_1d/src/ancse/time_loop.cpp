@@ -1,6 +1,7 @@
 #include <ancse/time_loop.hpp>
 
 #include <iostream>
+#define maxiter 1000
 
 TimeLoop::TimeLoop(std::shared_ptr<SimulationTime> simulation_time,
                    std::shared_ptr<TimeIntegrator> time_integrator,
@@ -17,8 +18,10 @@ void TimeLoop::operator()(Eigen::VectorXd u0) const {
 
     double dt = simulation_time->dt = (*cfl_condition)(u0);
     double t = 0.0;
+    uint iter = 0;
 
-    while (!is_finished(*simulation_time)) {
+    while (!is_finished(*simulation_time) && iter < maxiter) {
+        iter ++;
         (*time_integrator)(u1, u0, simulation_time->dt);
 
         simulation_time->advance();

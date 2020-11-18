@@ -52,7 +52,7 @@ class Rusanov {
         auto c = std::max(fL_d, fR_d);
 
 
-        return 0.5 * (fL + fR) - c/2*(uR - uL);
+        return 0.5 * (fL + fR) - 0.5*c*(uR - uL);
 
     }
 
@@ -83,6 +83,14 @@ class Enquist_osher {
             D = fL + fR;
         } else if (uR < 0 && uL > 0){
             D = fL + fR;
+        } else if (uR >0 && uL ==0) {
+            D = fR;
+        } else if (uR < 0 && uL ==0) {
+            D = -fR;
+        } else if (uR == 0 && uL >0) {
+            D = -fL;
+        } else {
+            D = fL;
         }
 
         return 0.5 * (fL + fR) - 0.5 * D;

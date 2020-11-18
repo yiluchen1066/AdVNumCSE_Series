@@ -26,9 +26,9 @@ inline double maxmod(double a, double b){
 inline double minabs(double a, double b){
     if (abs(a) < abs(b)){
         return a;
-    } else if (abs(a) == abs(b)){
+    } else if (abs(abs(a) - abs(b)) < 1e-5){
         return (a+b)/2;
-    } else if (abs(a) > abs(b)){
+    } else {
         return b;
     }
 }
@@ -111,7 +111,7 @@ class PWLinearReconstruction {
     explicit PWLinearReconstruction(const Grid &grid,const SlopeLimiter &slope_limiter);
 
     std::pair<double, double> operator()(const Eigen::VectorXd &u,
-                                         int i) const {
+                                         int i) const   {
         return (*this)(u[i - 1], u[i], u[i + 1], u[i + 2]);
     }
 
