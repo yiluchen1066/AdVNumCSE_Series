@@ -43,7 +43,7 @@ inline double tri_minmod(double a, double b, double c){
 //----------------SlopeLimiterBBegin----------------
 struct MinMod {
     inline double operator()(double sL, double sR) const {
-        return minmod(sL, sR);
+        return minmod(sR, sL);
     }
 };
 

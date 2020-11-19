@@ -11,6 +11,8 @@ class Model {
     inline double flux(double u) const { return 0.5 * u * u; }
 
     inline double max_eigenvalue(double u) const { return std::abs(u); }
+
+    inline double min_point() const{return 0.0;}
 };
 
 /// This is useful is you just need 'some' valid model.

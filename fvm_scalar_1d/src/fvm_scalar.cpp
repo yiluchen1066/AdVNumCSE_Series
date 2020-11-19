@@ -67,6 +67,10 @@ void backward_jump_test() {
     run_test([](double x) { return (x < 0.5 ? -1.0 : 1.0); });
 }
 
+void forward_jump_test() {
+    run_test([](double x) { return (x < 0.5 ? 1.0 : -1.0); });
+}
+
 void ex2() {
     auto config = get_global_config();
 
@@ -104,6 +108,8 @@ int main() {
         backward_jump_test();
     } else if (ic_key == "ex2") {
         ex2();
+    } else if (ic_key == "forward-jump") {
+        forward_jump_test();
     }
 
     return 0;

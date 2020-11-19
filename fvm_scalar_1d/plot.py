@@ -30,8 +30,20 @@ if __name__ == "__main__":
     plt.ion()
     plt.show()
 
+    time = 0
+    length = len(files)
+
     for fn in files:
-        t, x, u = load_snapshot(fn)
-        plot_snapshot(t, x, u)
-        plt.pause(0.01)
-        plt.clf()
+        time = time +1
+        if time < length:
+            t, x, u = load_snapshot(fn)
+            plot_snapshot(t, x, u)
+            plt.pause(0.01)
+            plt.clf()
+        else:
+            t, x, u = load_snapshot(fn)
+            plot_snapshot(t, x, u)
+            #plt.pause(0.01)
+            plt.savefig("/home/chenyilu/series1_handout/FVM_1d.jpg")
+
+

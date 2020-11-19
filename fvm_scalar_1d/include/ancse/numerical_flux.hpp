@@ -71,6 +71,14 @@ class Enquist_osher {
 
         auto fL = model.flux(uL);
         auto fR = model.flux(uR);
+        /*
+        auto w = model.min_point();
+        auto fP = model.flux(std::max(uL,w));
+        auto fN = model.flux(std::min(uR,w));
+        return fP+fN;
+
+        */
+
 
 
         auto D = 0.0;
@@ -82,7 +90,7 @@ class Enquist_osher {
         } else if (uR > 0 && uL < 0){
             D = fL + fR;
         } else if (uR < 0 && uL > 0){
-            D = fL + fR;
+            D = -fL - fR;
         } else if (uR >0 && uL ==0) {
             D = fR;
         } else if (uR < 0 && uL ==0) {
@@ -94,6 +102,7 @@ class Enquist_osher {
         }
 
         return 0.5 * (fL + fR) - 0.5 * D;
+
 
     }
 
