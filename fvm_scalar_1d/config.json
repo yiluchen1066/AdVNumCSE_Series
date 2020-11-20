@@ -1,15 +1,15 @@
 {
   "output": "data/testing-",
 
-  "initial_conditions": "backward-jump",
-  "boundary_condition": "outflow",
+  "initial_conditions": "sine",
+  "boundary_condition": "periodic",
   "reconstruction": "minmod",
   "time_integrator": "forward_euler",
-  "flux": "roe",
+  "flux": "godunov",
 
   "n_interior_cells": 100,
   "n_ghost": 2,
 
-  "t_end": 1.0,
+  "t_end": 10.0,
   "cfl_number": 0.45
 }

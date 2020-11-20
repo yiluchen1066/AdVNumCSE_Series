@@ -35,12 +35,12 @@ if __name__ == "__main__":
 
     for fn in files:
         time = time +1
-        if time < length:
+        if time < length and time % 10 == 0:
             t, x, u = load_snapshot(fn)
             plot_snapshot(t, x, u)
             plt.pause(0.01)
             plt.clf()
-        else:
+        elif time == length:
             t, x, u = load_snapshot(fn)
             plot_snapshot(t, x, u)
             #plt.pause(0.01)

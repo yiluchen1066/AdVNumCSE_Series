@@ -1,7 +1,7 @@
 #include <ancse/time_loop.hpp>
 
 #include <iostream>
-#define maxiter 1000
+#define maxiter 10000
 
 TimeLoop::TimeLoop(std::shared_ptr<SimulationTime> simulation_time,
                    std::shared_ptr<TimeIntegrator> time_integrator,

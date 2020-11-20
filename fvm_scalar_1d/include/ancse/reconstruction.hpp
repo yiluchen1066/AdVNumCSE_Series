@@ -69,6 +69,9 @@ struct MonotonizedCentral{
 
 struct VanLeer{
     inline double operator()(double sL, double sR) const {
+        if (sL == 0.0 || sR == 0.0){
+            return 0.0;
+        }
         return (std::abs(sR) * sL + std::abs(sL) * sR)/(std::abs(sR) + std::abs(sL));
     }
 
